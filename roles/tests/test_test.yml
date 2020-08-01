@@ -1,0 +1,19 @@
+---
+- name: Test playbook
+  hosts: tests
+  gather_facts: false
+  tasks:
+
+  - name: Test Selenium
+    block:
+
+    - name: Search Google for search term 'twitter'
+      selenium:
+        query: 'twitter'
+        url: 'google.com'
+        find_element_by: 'name'
+        element: 'q'
+      register: page_string
+      vars:
+        ansible_python_interpreter: '/usr/bin/python3'
+      failed_when: '"Twitter is an American microblogging and social networking service" not in page_string.result.element_result'
