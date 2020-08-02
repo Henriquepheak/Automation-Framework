@@ -13,6 +13,11 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
+## Run
+```bash
+python af_cli.py
+```
+
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
