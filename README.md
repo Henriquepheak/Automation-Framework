@@ -1,3 +1,5 @@
+![image](https://github.com/mytechnotalent/Automation_Framework/blob/master/Automation%20Framework.png?raw=true)
+
 # Automation Framework
 An open-source Automation Framework.
 
