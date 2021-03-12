@@ -70,6 +70,9 @@ from ansible.module_utils.basic import AnsibleModule
 
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 
 def __launch():
@@ -81,15 +84,36 @@ def __launch():
     return driver
 
 
-def __query(driver, query, url, find_element_by, element):
-    # query web url and return response
+def __query(driver, query, url, find_element_by, element, wait):
+    # query web and return response
     element_result = None
     driver.get('https://{}'.format(url))
     if find_element_by == 'id':
+        # noinspection PyBroadException
+        try:
+            WebDriverWait(driver, wait).until(
+                EC.presence_of_element_located((By.ID, element))
+            )
+        except:
+            driver.quit()
         element_result = driver.find_element_by_id('{}'.format(element))
     if find_element_by == 'name':
+        # noinspection PyBroadException
+        try:
+            WebDriverWait(driver, wait).until(
+                EC.visibility_of_element_located((By.NAME, element))
+            )
+        except:
+            driver.quit()
         element_result = driver.find_element_by_name('{}'.format(element))
     if find_element_by == 'xpath':
+        # noinspection PyBroadException
+        try:
+            WebDriverWait(driver, wait).until(
+                EC.presence_of_element_located((By.XPATH, element))
+            )
+        except:
+            driver.quit()
         element_result = driver.find_element_by_xpath('{}'.format(element))
     element_result.send_keys(query)
     element_result.send_keys(Keys.RETURN)
@@ -105,6 +129,7 @@ def run_module(module):
     url = module.params['url']
     find_element_by = module.params['find_element_by']
     element = module.params['element']
+    timeout = 60
     element_result = None
 
     # launch headless driver object and store in driver
@@ -113,7 +138,7 @@ def run_module(module):
     # noinspection PyBroadException
     try:
         if query:
-            element_result = __query(driver, query, url, find_element_by, element)
+            element_result = __query(driver, query, url, find_element_by, element, timeout)
     except:
         # during the execution of the module, if there is an exception or a
         # conditional state that effectively causes a failure, run
