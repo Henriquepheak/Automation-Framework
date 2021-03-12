@@ -13,6 +13,11 @@ git clone https://github.com/mytechnotalent/af.git
 python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
+ssh-keygen
+ssh-copy-id pi@192.168.x.x
+ssh pi@192.168.x.x
+sudo visudo
+  %sudo  ALL=(ALL:ALL) NOPASSWD: ALL
 ```
 
 ## Setup Environment (Managed Host)
