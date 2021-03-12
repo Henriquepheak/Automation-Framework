@@ -8,6 +8,9 @@ An open-source Automation Framework.
 git clone https://github.com/mytechnotalent/af.git
 ```
 
+## Enable SSH (Managed Host)
+[Instructions](https://www.raspberrypi.org/documentation/remote-access/ssh)
+
 ## Setup Environment (Control Host)
 ```bash
 python3 -m venv venv
