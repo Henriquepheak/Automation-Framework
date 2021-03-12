@@ -88,7 +88,9 @@ def run_module(module):
     url = module.params['url']
     find_element_by = module.params['find_element_by']
     element = module.params['element']
+    element_result = None
 
+    # noinspection PyBroadException
     try:
         driver = launch()
         driver.get('https://{}'.format(url))
@@ -106,6 +108,7 @@ def run_module(module):
         # during the execution of the module, if there is an exception or a
         # conditional state that effectively causes a failure, run
         # AnsibleModule.fail_json() to pass in the message and the result
+        driver = launch()
         driver.quit()
         module.fail_json(msg='Can\'t locate element.')
 
