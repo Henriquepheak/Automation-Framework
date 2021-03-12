@@ -24,7 +24,7 @@ options:
     query:
         description:
             - This is the query string to search with a page's search box.
-        required: true
+        required: false
     url:
         description:
             - This is the url for the Selenium driver to visit.
@@ -72,13 +72,30 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 
 
-def launch():
+def __launch():
     # allocate headless driver object
     options = webdriver.ChromeOptions()
     options.add_argument('window-size=1024x768')
     options.add_argument('headless')
     driver = webdriver.Chrome(options=options)
     return driver
+
+
+def __query(driver, query, url, find_element_by, element):
+    # query web url and return response
+    element_result = None
+    driver.get('https://{}'.format(url))
+    if find_element_by == 'id':
+        element_result = driver.find_element_by_id('{}'.format(element))
+    if find_element_by == 'name':
+        element_result = driver.find_element_by_name('{}'.format(element))
+    if find_element_by == 'xpath':
+        element_result = driver.find_element_by_xpath('{}'.format(element))
+    element_result.send_keys(query)
+    element_result.send_keys(Keys.RETURN)
+    element_result = driver.find_element_by_xpath('//*').text
+    driver.quit()
+    return element_result
 
 
 def run_module(module):
@@ -90,25 +107,17 @@ def run_module(module):
     element = module.params['element']
     element_result = None
 
+    # launch headless driver object and store in driver
+    driver = __launch()
+
     # noinspection PyBroadException
     try:
-        driver = launch()
-        driver.get('https://{}'.format(url))
-        if find_element_by == 'id':
-            element_result = driver.find_element_by_id('{}'.format(element))
-        if find_element_by == 'name':
-            element_result = driver.find_element_by_name('{}'.format(element))
-        if find_element_by == 'xpath':
-            element_result = driver.find_element_by_xpath('{}'.format(element))
-        element_result.send_keys(query)
-        element_result.send_keys(Keys.RETURN)
-        element_result = driver.find_element_by_xpath('//*').text
-        driver.quit()
+        if query:
+            element_result = __query(driver, query, url, find_element_by, element)
     except:
         # during the execution of the module, if there is an exception or a
         # conditional state that effectively causes a failure, run
         # AnsibleModule.fail_json() to pass in the message and the result
-        driver = launch()
         driver.quit()
         module.fail_json(msg='Can\'t locate element.')
 
@@ -133,7 +142,7 @@ def run_module(module):
 def main():
     # define available arguments/parameters a user can pass to the module
     module_args = dict(
-        query=dict(type='str', required=True),
+        query=dict(type='str', required=False),
         url=dict(type='str', required=True),
         find_element_by=dict(type='str', required=True),
         element=dict(type='str', required=True)
