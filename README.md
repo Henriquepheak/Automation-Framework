@@ -8,13 +8,8 @@ An open-source Automation Framework.
 git clone https://github.com/mytechnotalent/af.git
 ```
 
-## Enable SSH (Managed Host)
-#### Enter sudo raspi-config in a terminal window
-#### Select Interfacing Options
-#### Navigate to and select SSH
-#### Choose Yes
-#### Select Ok
-#### Choose Finish
+## Enable SSH & Install Chrome Drivers (Managed Host)
+[Instructions](https://www.raspberrypi.org/documentation/remote-access/ssh)
 ```bash
 sudo apt-get install chromium-chromedriver
 ```
