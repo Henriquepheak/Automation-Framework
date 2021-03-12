@@ -9,7 +9,15 @@ git clone https://github.com/mytechnotalent/af.git
 ```
 
 ## Enable SSH (Managed Host)
-[Instructions](https://www.raspberrypi.org/documentation/remote-access/ssh)
+#### Enter sudo raspi-config in a terminal window
+#### Select Interfacing Options
+#### Navigate to and select SSH
+#### Choose Yes
+#### Select Ok
+#### Choose Finish
+```bash
+sudo apt-get install chromium-chromedriver
+```
 
 ## Setup Environment (Control Host)
 ```bash
@@ -21,11 +29,6 @@ ssh-copy-id pi@192.168.x.x
 ssh pi@192.168.x.x
 sudo visudo
   %sudo  ALL=(ALL:ALL) NOPASSWD: ALL
-```
-
-## Setup Environment (Managed Host)
-```bash
-sudo apt-get install chromium-chromedriver
 ```
 
 ## Run
