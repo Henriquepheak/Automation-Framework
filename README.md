@@ -8,10 +8,14 @@ An open-source Automation Framework.
 git clone https://github.com/mytechnotalent/af.git
 ```
 
-## Enable SSH & Install Chrome Drivers (Managed Host)
+## Enable SSH (Managed Host)
 [Instructions](https://www.raspberrypi.org/documentation/remote-access/ssh)
+
+## Setup Selenium & Chrome Driver (Managed Host)
 ```bash
 sudo apt-get install chromium-chromedriver
+sudo apt-get install chromium-browser
+pip3 install selenium
 ```
 
 ## Setup Environment (Control Host)
