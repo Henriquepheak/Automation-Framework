@@ -15,7 +15,10 @@ git clone https://github.com/mytechnotalent/af.git
 ```bash
 sudo apt-get install chromium-chromedriver
 sudo apt-get install chromium-browser
+sudo apt-get install libatlas-base-dev
 pip3 install selenium
+pip3 install tweepy
+pip3 install pandas
 ```
 
 ## Setup Environment (Control Host)
@@ -28,6 +31,22 @@ ssh-copy-id pi@192.168.x.x
 ssh pi@192.168.x.x
 sudo visudo
   %sudo  ALL=(ALL:ALL) NOPASSWD: ALL
+```
+
+## Setup Twitter Developer Account & Create App
+[Website](https://developer.twitter.com)
+```
+1. Name your Project: hashtag_capture
+2. Which best describes you?: Building consumer tools (hobbyist)
+3. Describe your new Project: Search hashtags with Ansible integration into an open-source Automation Framework.
+4. Add your app: Create a new app instead.
+5. Last step, name your App: hashtag_capture_app
+6. Click Complete
+7. Copy Keys into twitter.py
+   consumer_key = "XXXXXXXXXXXXXXXXXXXXX"
+   consumer_secret = "XXXXXXXXXXXXXXXXXXXXX"
+   access_key = "XXXXXXXXXXXXXXXXXXXXX"
+   access_secret = "XXXXXXXXXXXXXXXXXXXXX"
 ```
 
 ## Run
