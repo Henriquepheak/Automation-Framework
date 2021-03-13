@@ -4,7 +4,7 @@
   gather_facts: false
   tasks:
 
-  - name: Test Selenium
+  - name: Test Selenium & Twitter
     block:
 
     - name: Search Google for search term 'twitter'
