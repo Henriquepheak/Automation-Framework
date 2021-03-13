@@ -21,7 +21,7 @@
     - name: Search Twitter hashtags for '#ansible' from date range and number of tweets
       twitter:
         hashtag: '#ansible'
-        date_since: 2021-03-13
+        date_since: '2021-03-13'
         number_of_tweets: 10
       register: tweets
       vars:

@@ -47,7 +47,7 @@ EXAMPLES = '''
 - name: Test twitter
   twitter:
     hashtag: '#ansible'
-    data_since: 2021-03-13
+    data_since: '2021-03-13'
     number_of_tweets: 10
   register: test
   vars:
@@ -64,13 +64,21 @@ element_result:
 
 from ansible.module_utils.basic import AnsibleModule
 
-import pandas as pd
 import tweepy
-from secrets import *
+import pandas as pd
 
 
 def __scrape(hashtag, date_since, number_of_tweets):
     # perform data extraction and return response
+    # enter your own credentials obtained
+    # from your developer account
+    consumer_key = "XXXXXXXXXXXXXXXXXXXXX"
+    consumer_secret = "XXXXXXXXXXXXXXXXXXXXX"
+    access_key = "XXXXXXXXXXXXXXXXXXXXX"
+    access_secret = "XXXXXXXXXXXXXXXXXXXXX"
+    auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
+    auth.set_access_token(access_key, access_secret)
+    api = tweepy.API(auth)
     # create DataFrame using pandas
     db = pd.DataFrame(columns=['username', 'description', 'location', 'following',
                                'followers', 'totaltweets', 'retweetcount', 'text', 'hashtags'])
@@ -80,6 +88,8 @@ def __scrape(hashtag, date_since, number_of_tweets):
                            since=date_since, tweet_mode='extended').items(number_of_tweets)
     # .Cursor() returns an iterable object and each item in
     # the iterator has various attributes that you can access to
+    # Counter to maintain Tweet Count
+    i = 1
     # get information about each tweet
     list_tweets = [tweet for tweet in tweets]
     # we will iterate over each tweet in the list for extracting information about each tweet
@@ -105,7 +115,7 @@ def __scrape(hashtag, date_since, number_of_tweets):
         ith_tweet = [username, description, location, following,
                      followers, totaltweets, retweetcount, text, hashtext]
         db.loc[len(db)] = ith_tweet
-        return ith_tweet
+        return i, ith_tweet
 
 
 def run_module(module):
@@ -114,12 +124,12 @@ def run_module(module):
     hashtag = module.params['hashtag']
     date_since = module.params['date_since']
     number_of_tweets = module.params['number_of_tweets']
+    i = None
     element_result = None
 
     # noinspection PyBroadException
     try:
-        if scrape:
-            element_result = __scrape(hashtag, date_since, number_of_tweets)
+        i, element_result = __scrape(hashtag, date_since, number_of_tweets)
     except:
         # during the execution of the module, if there is an exception or a
         # conditional state that effectively causes a failure, run
@@ -132,6 +142,7 @@ def run_module(module):
     # state will include any data that you want your module to pass back
     # for consumption, for example, in a subsequent task
     result = dict(
+        i=i,
         element_result=element_result
     )
 
