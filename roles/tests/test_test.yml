@@ -18,11 +18,16 @@
         ansible_python_interpreter: '/usr/bin/python3'
       failed_when: '"Twitter is an American microblogging and social networking service" not in page_string.result.element_result'
 
-    - name: Search Twitter hashtags for '#ansible' from date range and number of tweets
+    - name: Search Twitter hashtags for '#ansible' from date range and number of tweets and create a csv of the data
       twitter:
         hashtag: '#ansible'
         date_since: '2021-03-13'
         number_of_tweets: 10
-      register: tweets
       vars:
         ansible_python_interpreter: '/usr/bin/python3'
+
+    - name: Fetch 'scraped_tweets.csv' from managed host
+      fetch:
+        src: /home/pi/scraped_tweets.csv
+        dest: fetched
+      changed_when: false

@@ -21,5 +21,5 @@
 import subprocess
 
 # Run tests
-cmd = 'venv/bin/ansible-playbook -i hosts roles/tests/main.yml -vvvv --step'
+cmd = 'venv/bin/ansible-playbook -i hosts roles/tests/main.yml -v --step'
 subprocess.run(cmd, shell=True)
