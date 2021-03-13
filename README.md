@@ -33,7 +33,7 @@ sudo visudo
   %sudo  ALL=(ALL:ALL) NOPASSWD: ALL
 ```
 
-## Setup Twitter Developer Account
+## Setup Twitter Developer Account & Create App
 [Website](https://developer.twitter.com)
 ```
 1. Name your Project: hashtag_capture
