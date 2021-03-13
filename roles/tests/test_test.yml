@@ -7,7 +7,7 @@
   - name: Test Selenium & Twitter
     block:
 
-    - name: Search Google for search term 'twitter'
+    - name: Search Google for search term 'twitter' and ensure it contains failed_when string
       selenium:
         query: 'twitter'
         url: 'google.com'
