@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-# Copyright: (c) 2020, Kevin Thomas <kevin@mytechnotalent.com>
+# Copyright: (c) 2021, Kevin Thomas <kevin@mytechnotalent.com>
 # GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 ANSIBLE_METADATA = {
@@ -11,32 +11,29 @@ ANSIBLE_METADATA = {
 
 DOCUMENTATION = '''
 ---
-module: selenium
+module: twitter
 
-short_description: Selenium module.
+short_description: Twitter module.
 
 version_added: "1.0"
 
 description:
-    - "Selenium module which allows you to perform headless Selenium within Ansible."
+    - "Twitter module that interfaces with the Tweepy module which will extract tweets and geolocations based 
+       on a given hashtag."
 
 options:
-    query:
+    hashtag:
         description:
-            - This is the query string to search with a page's search box.
-        required: false
-    url:
-        description:
-            - This is the url for the Selenium driver to visit.
+            - This is the hashtag to query.
         required: true
-    find_element_by :
+    date_since:
         description:
-            - This is the find_element_by option such as id, name, xpath, etc.
+            - This is the date range to start capturing tweets.
         required: true
-    element:
+    number_of_tweets:
         description:
-            - The element to query on a page.
-        required: true
+            - This is the number of tweets to capture.
+        
 
 extends_documentation_fragment:
     - (none)
@@ -46,13 +43,12 @@ author:
 '''
 
 EXAMPLES = '''
-# Pass in a message
-- name: Test selenium
-  selenium:
-    query: 'twitter'
-    url: 'google.com'
-    find_element_by: 'name'
-    element: 'q'
+# Pass in a hashtag
+- name: Test twitter
+  twitter:
+    hashtag: 'ansible'
+    data_since: 2021-03-13
+    number_of_tweets: 10
   register: test
   vars:
     ansible_python_interpreter: '/usr/bin/python3'
@@ -60,7 +56,7 @@ EXAMPLES = '''
 
 RETURN = '''
 element_result:
-    description: The page element_result.
+    description: The latest tweets and geolocation of a particular hashtag.
     type: str
     returned: always
 '''
@@ -68,11 +64,9 @@ element_result:
 
 from ansible.module_utils.basic import AnsibleModule
 
-from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
+import pandas as pd
+import tweepy
+from secrets import *
 
 
 def __launch():
