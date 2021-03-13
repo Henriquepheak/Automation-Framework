@@ -28,6 +28,12 @@
 
     - name: Fetch 'scraped_tweets.csv' from managed host
       fetch:
-        src: /home/pi/scraped_tweets.csv
+        src: '/home/pi/scraped_tweets.csv'
         dest: fetched
+      changed_when: false
+
+    - name: Remove 'scraped_tweets.csv' from managed host
+      file:
+        state: absent
+        path: '/home/pi/scraped_tweets.csv'
       changed_when: false
