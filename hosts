@@ -1,0 +1,2 @@
+[tests]
+192.168.x.x ansible_ssh_user=pi
