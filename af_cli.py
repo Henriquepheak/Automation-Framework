@@ -20,6 +20,6 @@
 
 import subprocess
 
-# Run tests
-cmd = 'venv/bin/ansible-playbook -i hosts roles/tests/main.yml -v --step'
-subprocess.run(cmd, shell=True)
+if __name__ == '__main__':
+    cmd = 'venv/bin/ansible-playbook -i hosts roles/tests/main.yml -v --step'
+    subprocess.run(cmd, shell=True)
